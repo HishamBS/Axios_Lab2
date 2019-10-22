@@ -5,6 +5,32 @@ Promise.all([
     axios.get('https://api.quotable.io/random')
 ]).then(([backgroundResult, weatherRuslt,qouteResult]) => {
 
+    const icons = {
+        Clear: '☀',
+        Rain: '️🌧',
+        Storm: '⛈',
+        Snow: '🌨',
+        Mist: '🌫',
+        Clouds: '☁',
+      };
+      let chosenIcon
+      switch (weatherRuslt.data.weather[0].main) {
+                        case "Clouds":chosenIcon=icons.Clouds
+                        break;
+                        case "Clear":chosenIcon=icons.Clear
+                        break;
+                        case "Rain":chosenIcon=icons.Rain
+                        break;
+                        case "Storm":chosenIcon=icons.Storm
+                        break;
+                        case "Snow":chosenIcon=icons.Snow
+                        break;
+                        case "Mist":chosenIcon=icons.Mist
+                        break;
+      
+          default:
+              break;
+      }
     const bg = backgroundResult.data.urls.full;
     $('body').css('background-image', 'url(' + bg + ')'); 
 
@@ -12,11 +38,11 @@ Promise.all([
     let temp = weatherRuslt.data.main.temp;
     temp = parseFloat(temp-273.15)
    $ ('.weather').append(`<h1>${cityName}</h1>`)
-   $ ('.weather').append(`<h3>${temp}° C</h3>`) 
+   $ ('.weather').append(`<h3>${temp}°${chosenIcon} C</h3>`) 
    let qoute = qouteResult.data.content
    $ ('.qoute').append(`<h3>${qoute}</h3>`) 
 
-//    console.log(qouteResult);
+   
    
 
   })
